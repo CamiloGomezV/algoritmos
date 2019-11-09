@@ -6,45 +6,85 @@ Subject::Subject(){
 	Name = "";
 	num_credits = 0;
 	request = nullptr;
-	co_request = nullptr;
 	priority = def_priority(this);
 }
 
-Subject::Subject(string name, int credits, Subject *pre, Subject *co){
+Subject::Subject(string name, int credits, Subject *pre){
 
 	Name = name;
 	num_credits = credits;
 	request = pre;
-	co_request = co;
 	priority = def_priority(this);
 }
 
-int Subject::def_priority(Subject *subj){
-	if (subj->request == nullptr){ return 0; }
-	else {return 1 + def_priority(subj->request);}
+unsigned int Subject::def_priority(Subject *subj){
+	if (subj->request == nullptr){ return 0 + hash(subj->Name); }
+	else {return 7 + hash(subj->Name) + def_priority(subj->request);}
 }
 
-int Subject::get_priority(){
+unsigned int Subject::hash ( string name){
+	unsigned int hashval = 0;
+	for (char ch : name)
+		hashval += ch;
+	return hashval % 7;
+
+
+}
+
+unsigned int Subject::get_priority() const{
 	return priority;
 }
 
+string Subject::get_name() const {
+	return Name;
+}
+
+bool operator <( const Subject &s1, const Subject &s2){
+	unsigned int a = s1.get_priority();
+	unsigned int b = s2.get_priority();
+	return a < b;
+}
+
+ostream& operator << (ostream &os, const Subject &s){
+	os << s.get_name();
+	return os;
+}
 
 curriculum::curriculum(){
-	Semester S1;
-	S = S1;
-	first_semester = &S;
-	last_semester  = &S;
+	Semester *S1 = new Semester;
+	S1->next_semester = nullptr;
+	S1->previous_semester = nullptr;
+	first_semester = S1;
+	last_semester  = S1;
 	count_semester = 1;
 }
 
 curriculum::~curriculum(){
 	delete first_semester;
 	delete last_semester;
-	Semester *p = &S;	
-	delete p;
+}
+
+void curriculum::insert(const Subject &subj){
+
+
+
 
 }
 
+bool curriculum::search(const Subject &subj){
+	target = first_semester->S;
+	
+	if (target.auxf(subj)){
+		return true;
+	}
+	else if (first_semester->next_semester != nullptr) {
+		first_semester = first_semester->next_semester;
+		search(const Subject &subj)
+			
+	}
+	return false;
+
+}
 
 void curriculum::create_new_semester(){
 	Semester *new_semester;
