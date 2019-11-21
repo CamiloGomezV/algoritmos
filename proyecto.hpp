@@ -77,7 +77,7 @@ private:
 
 };
 
-curriculum maker( Subject array[]);
+curriculum maker( vector<Subject> array);
 #endif
 
 

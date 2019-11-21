@@ -91,13 +91,28 @@ curriculum::~curriculum(){
 }
 
 void curriculum::insert(const Subject &subj){
-	
 	Subject *exist = subj.get_request();
-	if (search(*exist)){
-		if (insert_control->tot_credits < MAX_CREDITS){ 
+	cout << "control insert " << endl;
+	if (exist == nullptr){
+		//cout << "control if insert " << endl;
+		if (insert_control->tot_credits < MAX_CREDITS){
+			//cout << "control if insert 2" << endl;
 			aux_insert(subj);
 		}
 		else{
+			//cout << "control if insert 3" << endl;
+			set_insert();
+			aux_insert(subj);
+		}
+	}
+	else if (search(*exist)){
+		//cout << "control if insert " << endl;
+		if (insert_control->tot_credits < MAX_CREDITS){
+			//cout << "control if insert 2" << endl;
+			aux_insert(subj);
+		}
+		else{
+			//cout << "control if insert 3" << endl;
 			set_insert();
 			aux_insert(subj);
 		}
@@ -154,18 +169,21 @@ void curriculum::aux_insert(const Subject &subj){
 void curriculum::display(){
 	Semester *itr = first_semester;
 	while(itr != nullptr){
-	cout << "control" << endl;
+	//cout << "control" << endl;
 		vector<Subject> aux = itr->S;
 		cout << aux.size() << endl;
-		for (unsigned int i; i < aux.size(); i++){
+		for (unsigned int i = 0; i < aux.size(); i++){
 			cout << aux[i] << ", ";
 		}
 		itr = itr->next_semester;
 	}
+	cout << endl;
 }
 
 curriculum maker( vector<Subject> array){
+	//cout << "control maker0" << endl;
 	typedef priority_queue<Subject, vector<Subject>,Subject> mypq_type;
+	//cout << "control maker1" << endl;
 	curriculum mycurriculum;
 	mypq_type basics, complement;
 	for(unsigned int i = 0; i < array.size(); i++){
@@ -183,6 +201,7 @@ curriculum maker( vector<Subject> array){
 			complement.pop();
 		}
 	}
+	//cout << "control maker3" << endl;
 	return mycurriculum;
 }
 

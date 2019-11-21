@@ -1,4 +1,5 @@
 #include "proyecto.hpp"
+#include<vector>
 
 int main(){
 	
@@ -34,11 +35,17 @@ int main(){
 	
 	Subject arr[] = {preca, logica1, progra, pensa, Arqui, intro, c1, logica2, algor, c2, lineal, bases, proba};
 	
-	vector<Subject> array(arr, arr + sizeof(arr) / sizeof(Subject));
-
+	//vector<Subject> hola(arr, arr + sizeof(arr) / sizeof(Subject));
+	vector<Subject> hola;
+	for (int i=0; i<13; i++){
+		Subject a = arr[i];
+		hola.push_back(a);
+	}
 	//mypq_type mypq(array, array+13);
-			
-	maker(array).display();
+	//curriculum cur;
+	//cur.insert(preca);
+	//cur.display();		
+	maker(hola).display();
 	/*while(!mypq.empty()){
 		Subject a = mypq.top();
 		cout << a << "," << endl;
